@@ -1,0 +1,236 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Toy_Drummer", "Robot", "Toy_Biplane", "Toy_Car", "Cube_1", "Cube_2", "GroundingShadow", "Material"]
+    float3 xformOp:translate = (0, 0.30295935, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def "Toy_Drummer" (
+        active = true
+        references = @Drummer.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.09320864, 0.075549394, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "geom"
+        {
+            over "realistic"
+            {
+                over "geo"
+                {
+                    over "lod0"
+                    {
+                        over "toy_drummer_realistic_lod0"
+                        {
+                            def RealityKitComponent "GroundingShadow"
+                            {
+                                bool enableIBLShadow = 1
+                                bool enableMeshShadow = 1
+                                uniform token info:id = "RealityKit.GroundingShadow"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def "Robot" (
+        active = true
+        references = @Robot.usdz@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.108514905, 0.118561774, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "geom"
+        {
+            over "realistic"
+            {
+                over "geo"
+                {
+                    over "lod0"
+                    {
+                        over "robot_realistic_lod0"
+                        {
+                            def RealityKitComponent "GroundingShadow"
+                            {
+                                bool enableIBLShadow = 1
+                                bool enableMeshShadow = 1
+                                uniform token info:id = "RealityKit.GroundingShadow"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def "Toy_Biplane" (
+        active = true
+        references = @ToyBiplane.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.31789455, 0.1655721, 0.0042272806)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "geom"
+        {
+            over "realistic"
+            {
+                over "geo"
+                {
+                    over "lod0"
+                    {
+                        over "toy_biplane_base_realistic_lod0"
+                        {
+                            def RealityKitComponent "GroundingShadow"
+                            {
+                                bool enableIBLShadow = 1
+                                bool enableMeshShadow = 1
+                                uniform token info:id = "RealityKit.GroundingShadow"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def "Toy_Car" (
+        active = true
+        references = @ToyCar.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.34513605, 0.14620781, 0.022318006)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "geom"
+        {
+            over "realistic"
+            {
+                over "geo"
+                {
+                    over "lod0"
+                    {
+                        over "toy_car_realistic_lod0"
+                        {
+                            def RealityKitComponent "GroundingShadow"
+                            {
+                                bool enableIBLShadow = 1
+                                bool enableMeshShadow = 1
+                                uniform token info:id = "RealityKit.GroundingShadow"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def Cube "Cube_1" (
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        reorder nameChildren = ["DefaultMaterial", "Cube_2", "GroundingShadow"]
+        rel material:binding = </Root/Cube_1/DefaultMaterial>
+        double size = 0.2
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (8, 0.2, 2)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            prepend token outputs:surface.connect = </Root/Cube_1/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                color3f inputs:emissiveColor = (0, 0.5690458, 0.57461685) (
+                    colorSpace = "srgb_texture"
+                )
+                float inputs:metallic = 1
+                float inputs:opacity = 0.75
+                float inputs:roughness = 0.2
+                token outputs:surface
+            }
+        }
+
+        def RealityKitComponent "GroundingShadow"
+        {
+            bool enableIBLShadow = 1
+            bool enableMeshShadow = 1
+            uniform token info:id = "RealityKit.GroundingShadow"
+        }
+    }
+
+    def Cube "Cube_2" (
+        active = false
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        reorder nameChildren = ["GroundingShadow", "WhiteCube"]
+        rel material:binding = </Root/Cube_2/WhiteCube> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double size = 0.2
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (10, 0.3, 6)
+        float3 xformOp:translate = (1.1269003e-7, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "GroundingShadow"
+        {
+            bool enableIBLShadow = 1
+            bool enableMeshShadow = 1
+            uniform token info:id = "RealityKit.GroundingShadow"
+        }
+
+        def Material "WhiteCube" (
+            active = true
+        )
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            prepend token outputs:surface.connect = </Root/Cube_2/WhiteCube/UsdPreviewSurface.outputs:surface>
+
+            def Shader "UsdPreviewSurface" (
+                active = true
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.999996, 1, 1) (
+                    colorSpace = "srgb_texture"
+                )
+                float inputs:metallic = 1
+                token outputs:surface
+            }
+        }
+    }
+
+    def RealityKitComponent "GroundingShadow"
+    {
+        bool enableIBLShadow = 1
+        bool enableMeshShadow = 1
+        uniform token info:id = "RealityKit.GroundingShadow"
+    }
+}
+

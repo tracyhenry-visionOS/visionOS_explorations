@@ -1,2 +1,2 @@
-# visionOS_explorations
-small visionOS projects that demonstrate core functionalities
+# Small examples that demonstrate core visionOS functionalities
+
